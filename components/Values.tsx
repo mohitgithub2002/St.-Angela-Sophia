@@ -1,8 +1,8 @@
-import { values } from "@/lib/data";
+import type { CoreValue } from "@/lib/types";
 import { Icon } from "./Icon";
 import { SectionHead } from "./SectionHead";
 
-export function Values() {
+export function Values({ values }: { values: CoreValue[] }) {
   return (
     <section id="values" aria-labelledby="values-title" className="py-16">
       <div className="wrap">
@@ -11,7 +11,7 @@ export function Values() {
         </SectionHead>
         <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
           {values.map((v) => (
-            <div key={v.title} className="group flex gap-5">
+            <div key={v.id} className="group flex gap-5">
               <span className="grid h-[70px] w-[70px] shrink-0 place-items-center rounded-full border-2 border-moss text-moss transition-colors group-hover:bg-moss group-hover:text-white">
                 <Icon name={v.icon} className="h-8 w-8" />
               </span>

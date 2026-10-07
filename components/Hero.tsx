@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
-import { slides } from "@/lib/data";
+import Link from "next/link";
+import type { Slide } from "@/lib/types";
 import { Icon } from "./Icon";
 import { Photo } from "./Photo";
 
-export function Hero() {
+export function Hero({ slides }: { slides: Slide[] }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (paused || slides.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setI((n) => (n + 1) % slides.length), 6000);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, slides.length]);
 
   const go = (step: number) => setI((n) => (n + step + slides.length) % slides.length);
 
@@ -28,7 +29,7 @@ export function Hero() {
     >
       {slides.map((s, n) => (
         <div
-          key={s.image}
+          key={s.id}
           aria-roledescription="slide"
           aria-label={`${n + 1} of ${slides.length}`}
           aria-hidden={n !== i}
@@ -44,9 +45,9 @@ export function Hero() {
               ) : (
                 <p className="mt-2 font-serif text-[clamp(34px,5.4vw,66px)] font-bold uppercase leading-[1.1] text-white">{s.heading}</p>
               )}
-              <a href="#about" tabIndex={n === i ? undefined : -1} className="mt-7 inline-block border-2 border-white px-7 py-3 text-[13px] font-medium uppercase tracking-[.1em] text-white transition-colors hover:border-moss hover:bg-moss">
+              <Link href={s.link || "/about"} tabIndex={n === i ? undefined : -1} className="mt-7 inline-block border-2 border-white px-7 py-3 text-[13px] font-medium uppercase tracking-[.1em] text-white transition-colors hover:border-moss hover:bg-moss">
                 Know More
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -62,7 +63,7 @@ export function Hero() {
       <div className="absolute bottom-7 left-1/2 flex -translate-x-1/2 gap-2.5">
         {slides.map((s, n) => (
           <button
-            key={s.image}
+            key={s.id}
             onClick={() => setI(n)}
             aria-label={`Show slide ${n + 1}`}
             aria-current={n === i}

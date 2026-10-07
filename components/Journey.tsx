@@ -1,11 +1,12 @@
 "use client";
 import { useRef, useState } from "react";
-import { stages } from "@/lib/data";
+import type { Stage } from "@/lib/types";
 
-export function Journey() {
+export function Journey({ stages }: { stages: Stage[] }) {
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const s = stages[active];
+  if (!s) return null;
 
   function onKey(e: React.KeyboardEvent, i: number) {
     const step = ["ArrowDown", "ArrowRight"].includes(e.key) ? 1 : ["ArrowUp", "ArrowLeft"].includes(e.key) ? -1 : 0;
@@ -21,7 +22,7 @@ export function Journey() {
       <div role="tablist" aria-label="School stages" className="flex flex-col gap-2">
         {stages.map((st, i) => (
           <button
-            key={st.title}
+            key={st.id}
             ref={(el) => { refs.current[i] = el; }}
             role="tab"
             aria-selected={active === i}

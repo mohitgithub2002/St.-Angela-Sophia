@@ -1,7 +1,9 @@
 type Name =
   | "book" | "heart" | "star" | "globe" | "chart" | "flask" | "pen" | "menu" | "close"
   | "info" | "building" | "home" | "trophy" | "bullhorn" | "cap" | "phone" | "mail" | "pin"
-  | "speaker" | "arrow" | "up" | "left" | "right" | "calendar" | "quote" | "screen" | "sun";
+  | "speaker" | "arrow" | "up" | "left" | "right" | "calendar" | "quote" | "screen" | "sun"
+  | "download" | "camera" | "shield" | "rupee" | "file" | "plus" | "trash" | "user" | "play" | "gear"
+  | "logout" | "external" | "inbox" | "check" | "upload" | "eye" | "image" | "bus" | "list";
 
 const paths: Record<Name, React.ReactNode> = {
   book: <><path d="M6 10c5-2 10-2 14 2 4-4 9-4 14-2v20c-5-2-10-2-14 2-4-4-9-4-14-2Z" /><path d="M20 12v20" /></>,
@@ -31,14 +33,36 @@ const paths: Record<Name, React.ReactNode> = {
   calendar: <><rect x="6" y="9" width="28" height="25" rx="2" /><path d="M6 16h28M13 5v7M27 5v7" /></>,
   screen: <><rect x="5" y="7" width="30" height="20" rx="2" /><path d="M20 27v6M13 33h14M11 21l6-6 4 4 7-7" /></>,
   sun: <><circle cx="20" cy="20" r="6" /><path d="M20 5v4M20 31v4M5 20h4M31 20h4M9.4 9.4l2.8 2.8M27.8 27.8l2.8 2.8M9.4 30.6l2.8-2.8M27.8 12.2l2.8-2.8" /></>,
+  download: <><path d="M20 6v20M12 18l8 8 8-8" /><path d="M7 30v4h26v-4" /></>,
+  upload: <><path d="M20 26V6M12 14l8-8 8 8" /><path d="M7 30v4h26v-4" /></>,
+  camera: <><path d="M5 13h7l3-4h10l3 4h7v20H5Z" /><circle cx="20" cy="22" r="6" /></>,
+  shield: <><path d="M20 5l13 5v9c0 8-6 14-13 16-7-2-13-8-13-16v-9Z" /><path d="M14 20l4 4 8-8" /></>,
+  rupee: <path d="M12 8h17M12 15h17M16 8c10 0 10 14 0 14h-4l14 12" />,
+  file: <><path d="M10 5h13l8 8v22H10Z" /><path d="M23 5v8h8M15 21h11M15 27h11" /></>,
+  plus: <path d="M20 8v24M8 20h24" />,
+  trash: <><path d="M7 11h26M16 11V7h8v4M10 11l2 23h16l2-23" /><path d="M17 17v11M23 17v11" /></>,
+  user: <><circle cx="20" cy="14" r="7" /><path d="M7 35c1-7 6-11 13-11s12 4 13 11" /></>,
+  play: <><circle cx="20" cy="20" r="15" /><path d="M16 13v14l11-7Z" /></>,
+  gear: <><circle cx="20" cy="20" r="5" /><path d="M20 5v5M20 30v5M5 20h5M30 20h5M9.4 9.4l3.5 3.5M27.1 27.1l3.5 3.5M9.4 30.6l3.5-3.5M27.1 12.9l3.5-3.5" /></>,
+  logout: <><path d="M17 7H8v26h9" /><path d="M16 20h17M27 14l6 6-6 6" /></>,
+  external: <><path d="M23 7h10v10M33 7L18 22" /><path d="M29 24v9H7V11h9" /></>,
+  inbox: <><path d="M5 22l5-15h20l5 15v11H5Z" /><path d="M5 22h9l2 4h8l2-4h9" /></>,
+  check: <path d="M8 21l8 8 16-17" />,
+  eye: <><path d="M3 20s6-11 17-11 17 11 17 11-6 11-17 11S3 20 3 20Z" /><circle cx="20" cy="20" r="5" /></>,
+  image: <><rect x="5" y="7" width="30" height="26" rx="2" /><circle cx="14" cy="15" r="3" /><path d="M5 29l9-9 7 7 5-5 9 9" /></>,
+  bus: <><rect x="8" y="5" width="24" height="25" rx="3" /><path d="M8 18h24M13 30v4M27 30v4" /><circle cx="14" cy="24" r="1.5" /><circle cx="26" cy="24" r="1.5" /></>,
+  list: <path d="M14 10h20M14 20h20M14 30h20M6 10h2M6 20h2M6 30h2" />,
 };
 
 export type IconName = Name;
 
-export function Icon({ name, className = "h-10 w-10" }: { name: Name; className?: string }) {
+export const ICON_NAMES = Object.keys(paths) as Name[];
+
+// name may come from the database, so unknown names fall back to a star.
+export function Icon({ name, className = "h-10 w-10" }: { name: Name | (string & {}); className?: string }) {
   return (
     <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      {paths[name]}
+      {paths[name as Name] ?? paths.star}
     </svg>
   );
 }

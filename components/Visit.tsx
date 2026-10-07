@@ -1,10 +1,11 @@
-import { school } from "@/lib/data";
+import { telHref } from "@/lib/format";
+import type { Settings } from "@/lib/types";
 import { EnquiryForm } from "./EnquiryForm";
 import { Icon } from "./Icon";
 import { Photo } from "./Photo";
 import { SectionHead } from "./SectionHead";
 
-export function Visit() {
+export function Visit({ settings: school }: { settings: Settings }) {
   return (
     <section id="visit" aria-labelledby="visit-title" className="bg-mint py-16">
       <div className="wrap">
@@ -29,14 +30,14 @@ export function Visit() {
               <figcaption className="absolute bottom-2 left-2 bg-forest/80 px-2.5 py-1 text-[12px] uppercase tracking-wider text-white">Look for this building</figcaption>
             </figure>
             <div className="space-y-2 p-6 text-[14.5px]">
-              <h3 className="mb-2 text-[18px] font-semibold">{school.address}</h3>
+              <h3 className="mb-2 text-[18px] font-semibold">{school.address} {school.pin}</h3>
               <p className="flex gap-2"><Icon name="pin" className="h-5 w-5 shrink-0 text-moss" />{school.landmark}</p>
-              <p className="flex gap-2"><Icon name="phone" className="h-5 w-5 shrink-0 text-moss" /><span><a className="font-semibold text-moss" href={school.phoneHref}>{school.phone}</a> or <a className="font-semibold text-moss" href={school.mobileHref}>{school.mobile}</a></span></p>
+              <p className="flex gap-2"><Icon name="phone" className="h-5 w-5 shrink-0 text-moss" /><span><a className="font-semibold text-moss" href={telHref(school.phone)}>{school.phone}</a> or <a className="font-semibold text-moss" href={telHref(school.mobile)}>{school.mobile}</a></span></p>
               <p className="flex gap-2"><Icon name="mail" className="h-5 w-5 shrink-0 text-moss" /><a className="font-semibold text-moss" href={`mailto:${school.email}`}>{school.email}</a></p>
               <p><a className="btn mt-2" href={school.mapsUrl} target="_blank" rel="noopener">Get directions in Google Maps</a></p>
             </div>
           </div>
-          <EnquiryForm />
+          <EnquiryForm email={school.email} />
         </div>
       </div>
     </section>

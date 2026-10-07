@@ -1,22 +1,26 @@
-import { news } from "@/lib/data";
+import Link from "next/link";
+import type { Announcement } from "@/lib/types";
 import { Icon } from "./Icon";
 import { Photo } from "./Photo";
 
-export function About() {
-  const notice = news[0];
+export function About({ notice }: { notice?: Announcement }) {
   return (
     <>
-      {/* Featured notice */}
-      <div className="wrap py-8">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 border border-lichen/50 border-l-4 border-l-sage bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,.06)] sm:flex-row">
-          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-sage/10 text-sage"><Icon name="bullhorn" className="h-9 w-9" /></span>
-          <div className="flex-1 text-center sm:text-left">
-            <h3 className="text-[18px] font-bold">{notice.title}</h3>
-            <p className="text-[14.5px]">{notice.text}</p>
+      {/* Featured notice: the first pinned announcement */}
+      {notice && (
+        <div className="wrap py-8">
+          <div className="mx-auto flex max-w-4xl flex-col items-center gap-5 border border-lichen/50 border-l-4 border-l-sage bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,.06)] sm:flex-row">
+            <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-sage/10 text-sage"><Icon name="bullhorn" className="h-9 w-9" /></span>
+            <div className="flex-1 text-center sm:text-left">
+              <h3 className="text-[18px] font-bold">{notice.title}</h3>
+              {notice.text && <p className="text-[14.5px]">{notice.text}</p>}
+            </div>
+            {(notice.file_url || notice.link) && (
+              <a href={notice.file_url || notice.link} {...(notice.file_url ? { target: "_blank", rel: "noopener" } : {})} className="btn shrink-0">Details</a>
+            )}
           </div>
-          <a href={notice.href} className="btn shrink-0">Details</a>
         </div>
-      </div>
+      )}
 
       {/* About us */}
       <section id="about" aria-labelledby="about-title" className="grid lg:grid-cols-2">
@@ -31,7 +35,7 @@ export function About() {
             <p className="mt-3">
               Strong results matter here, and so does the kind of person a girl becomes. Our motto, <i className="font-serif text-moss">Arbhak Buddhi Dayi</i>, means giving wisdom to little ones.
             </p>
-            <a href="#history" className="btn mt-7">Read More</a>
+            <Link href="/about" className="btn mt-7">Read More</Link>
           </div>
         </div>
       </section>

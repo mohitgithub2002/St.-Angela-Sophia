@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
-import { streams } from "@/lib/data";
+import type { Stream } from "@/lib/types";
 
 const C = 2 * Math.PI * 62;
 
-export function Streams() {
+export function Streams({ streams }: { streams: Stream[] }) {
   const [i, setI] = useState(0);
   const s = streams[i];
+  if (!s) return null;
   return (
     <div id="streams" className="mt-16">
       <h3 className="mb-2 text-center text-[clamp(20px,2.4vw,26px)] font-semibold uppercase">Streams in Classes XI and XII</h3>
@@ -14,7 +15,7 @@ export function Streams() {
       <div role="tablist" aria-label="Senior secondary streams" className="my-6 flex flex-wrap justify-center gap-2">
         {streams.map((st, j) => (
           <button
-            key={st.name}
+            key={st.id}
             role="tab"
             aria-selected={i === j}
             aria-controls="stream-panel"

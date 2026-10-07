@@ -1,22 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
-import { achievements } from "@/lib/data";
+import type { Achievement } from "@/lib/types";
 import { Icon } from "./Icon";
 import { Photo } from "./Photo";
 import { SectionHead } from "./SectionHead";
 
 // Testimonial-style slider showing the school's achievers.
-export function Achievements() {
+export function Achievements({ achievements }: { achievements: Achievement[] }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const a = achievements[i];
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (paused || achievements.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setI((n) => (n + 1) % achievements.length), 6000);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, achievements.length]);
 
+  if (!a) return null;
   return (
     <section id="achievers" aria-labelledby="ach-title" className="bg-forest py-16 text-white" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="wrap">
@@ -34,7 +35,7 @@ export function Achievements() {
             <div role="tablist" aria-label="Achievements" className="flex justify-center gap-4">
               {achievements.map((x, n) => (
                 <button
-                  key={x.title}
+                  key={x.id}
                   role="tab"
                   aria-selected={n === i}
                   aria-controls="ach-panel"

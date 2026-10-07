@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { facts } from "@/lib/data";
+import type { Fact } from "@/lib/types";
 import { Icon } from "./Icon";
 import { Photo } from "./Photo";
 
 // Numbers count up once the band scrolls into view.
-export function Counters() {
+export function Counters({ facts }: { facts: Fact[] }) {
   const ref = useRef<HTMLElement>(null);
   const [p, setP] = useState(0);
 
@@ -34,10 +34,10 @@ export function Counters() {
       <div className="absolute inset-0 bg-gradient-to-b from-moss/90 to-forest/95" />
       <ul className="wrap relative grid grid-cols-2 gap-y-10 lg:grid-cols-4">
         {facts.map((f) => (
-          <li key={f.label} className="text-center">
+          <li key={f.id} className="text-center">
             <Icon name={f.icon} className="mx-auto h-11 w-11 text-lichen" />
             <b className="mt-3 block font-serif text-[clamp(36px,4.5vw,52px)] font-bold leading-none">
-              {Math.round(Number(f.value) * p).toLocaleString("en-IN")}{f.suffix}
+              {Number.isFinite(Number(f.value)) ? Math.round(Number(f.value) * p).toLocaleString("en-IN") : f.value}{f.suffix}
             </b>
             <span className="mt-2 block text-[14px] uppercase tracking-wider text-white/80">{f.label}</span>
           </li>

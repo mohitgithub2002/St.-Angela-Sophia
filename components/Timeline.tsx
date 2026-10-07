@@ -1,6 +1,6 @@
-import { timeline } from "@/lib/data";
+import type { TimelineItem } from "@/lib/types";
 
-export function Timeline() {
+export function Timeline({ timeline }: { timeline: TimelineItem[] }) {
   return (
     <section id="history" aria-labelledby="heritage-title" className="bg-moss py-16 text-white">
       <div className="wrap">
@@ -13,7 +13,7 @@ export function Timeline() {
           {timeline.map((t, i) => {
             const last = i === timeline.length - 1;
             return (
-              <li key={t.year} className="relative snap-start pr-7">
+              <li key={t.id} className="relative snap-start pr-7">
                 <div className="mb-6 h-0.5 bg-white/30" />
                 <span className={`absolute -top-1.5 left-0 h-3.5 w-3.5 rounded-full ring-4 ring-moss ${last ? "bg-pista" : "bg-lichen"}`} />
                 <b className={`block font-serif text-[40px] font-bold leading-none ${last ? "text-pista" : "text-white"}`}>{t.year}</b>

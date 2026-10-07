@@ -6,7 +6,8 @@ const slab = Roboto_Slab({ subsets: ["latin"], weight: ["400", "500", "600", "70
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500", "700"], variable: "--font-roboto" });
 
 export const metadata: Metadata = {
-  title: "St. Angela Sophia Senior Secondary School, Jaipur",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  title: { default: "St. Angela Sophia Senior Secondary School, Jaipur", template: "%s | St. Angela Sophia School, Jaipur" },
   description:
     "A CBSE girls' school in Jaipur run by the Mission Sisters of Ajmer, educating girls from Nursery to Class XII since 1926.",
 };

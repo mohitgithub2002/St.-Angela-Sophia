@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { ext } from "@/lib/nav";
 import type { Announcement as Item } from "@/lib/types";
 import { Icon } from "./Icon";
 
@@ -18,7 +18,7 @@ export function Announcement({ items: list }: { items: Item[] }) {
             {items.map((a, i) => (
               <li key={i} aria-hidden={i >= list.length} className="flex items-center whitespace-nowrap pr-8 text-[13.5px] text-moss">
                 <span className="mr-2 h-2 w-2 rounded-full bg-sage" />
-                <Link href={a.file_url || a.link || "/downloads/circulars"} tabIndex={i >= list.length ? -1 : undefined} className="hover:text-moss hover:underline">{a.title}</Link>
+                <a href={a.file_url || a.link || "/downloads/circulars"} {...ext(a.file_url || a.link)} tabIndex={i >= list.length ? -1 : undefined} className="hover:text-moss hover:underline">{a.title}</a>
               </li>
             ))}
           </ul>

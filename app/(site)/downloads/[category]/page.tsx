@@ -14,7 +14,6 @@ const TABS = {
 type Tab = keyof typeof TABS;
 const isTab = (t: string): t is Tab => t in TABS;
 
-export const dynamicParams = false;
 export const generateStaticParams = () => Object.keys(TABS).map((category) => ({ category }));
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {

@@ -77,7 +77,7 @@ export function Header({ settings: s }: { settings: Settings }) {
 
           <nav aria-label="Main" className="hidden xl:block">
             <ul className="flex items-center">
-              {mainNav.map((l) => (
+              {mainNav.map((l, i) => (
                 <li key={l.label} className="group relative">
                   <Link
                     href={l.href}
@@ -88,7 +88,7 @@ export function Header({ settings: s }: { settings: Settings }) {
                     {l.children.length > 0 && <Icon name="right" className="h-3 w-3 rotate-90" />}
                   </Link>
                   {l.children.length > 0 && (
-                    <ul className="invisible absolute left-0 top-full z-10 w-64 translate-y-2 border-t-[3px] border-moss bg-white py-2 opacity-0 shadow-[0_8px_20px_rgba(0,0,0,.12)] transition-all group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                    <ul className={`invisible absolute ${i >= mainNav.length - 3 ? "right-0" : "left-0"} top-full z-10 w-64 translate-y-2 border-t-[3px] border-moss bg-white py-2 opacity-0 shadow-[0_8px_20px_rgba(0,0,0,.12)] transition-all group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100`}>
                       {l.children.map((c) => (
                         <li key={c.href + c.label}>
                           <Link href={c.href} {...ext(c.href)} className="block px-5 py-2 text-[14px] text-moss hover:bg-mint hover:text-forest">{c.label}</Link>

@@ -3,7 +3,9 @@
 
 create extension if not exists pgcrypto;
 
--- Staff accounts. One row per auth user; the first user to sign up becomes super_admin.
+-- Staff accounts. A login (auth.users) is only staff if it has a row here. Rows are created by the server
+-- with the service-role key (npm run create-admin, or Admin › Staff accounts), never by signing up, so
+-- someone who signs up through Supabase Auth on their own gets no access.
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   name text not null default '',
@@ -11,22 +13,6 @@ create table public.profiles (
   role text not null default 'editor' check (role in ('super_admin', 'editor')),
   created_at timestamptz not null default now()
 );
-
-create or replace function public.handle_new_user() returns trigger
-language plpgsql security definer set search_path = public as $$
-begin
-  insert into public.profiles (id, email, name, role)
-  values (
-    new.id,
-    coalesce(new.email, ''),
-    coalesce(new.raw_user_meta_data ->> 'name', ''),
-    case when exists (select 1 from public.profiles) then coalesce(new.raw_user_meta_data ->> 'role', 'editor') else 'super_admin' end
-  );
-  return new;
-end $$;
-
-create trigger on_auth_user_created after insert on auth.users
-  for each row execute function public.handle_new_user();
 
 create or replace function public.is_staff() returns boolean
 language sql stable security definer set search_path = public as $$

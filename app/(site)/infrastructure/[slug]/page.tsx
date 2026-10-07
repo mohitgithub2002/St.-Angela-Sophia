@@ -11,7 +11,6 @@ const SLUGS = ["classrooms", "library", "laboratories", "sports", "transport", "
 type Slug = (typeof SLUGS)[number];
 const isSlug = (s: string): s is Slug => (SLUGS as readonly string[]).includes(s);
 
-export const dynamicParams = false;
 export const generateStaticParams = () => SLUGS.map((slug) => ({ slug }));
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
